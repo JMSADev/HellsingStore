@@ -1,0 +1,21 @@
+/* Remove margens e espaços ao redor da página */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #0b0b0b;
+}
+
+/* Evita espaços causados pelo tamanho dos elementos */
+* {
+  box-sizing: border-box;
+}
+
+/* Faz a aplicação ocupar toda a largura disponível */
+app-root {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+}
