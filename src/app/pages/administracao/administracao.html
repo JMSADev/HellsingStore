@@ -1,0 +1,121 @@
+<div class="pagina">
+
+    <header class="cabecalho">
+      <a routerLink="/inicio" class="logo">
+        Hellsing<span class="vermelho">Store</span>
+      </a>
+  
+      <nav>
+        <a routerLink="/inicio">Início</a>
+        <a routerLink="/produtos">Produtos</a>
+        <a routerLink="/carrinho">Carrinho</a>
+        <a routerLink="/administracao" class="ativo">Administração</a>
+      </nav>
+    </header>
+  
+    <main class="conteudo">
+  
+      <section class="titulo-pagina">
+        <p class="subtitulo">HELLSINGSTORE · PAINEL ADMINISTRATIVO</p>
+        <h1>Gerenciamento de <span class="vermelho">funcionários.</span></h1>
+        <p>Consulte os funcionários cadastrados no sistema.</p>
+      </section>
+  
+      <section class="painel">
+  
+        <div class="painel-topo">
+          <div>
+            <h2>Funcionários cadastrados</h2>
+            <p>Dados recebidos da API.</p>
+          </div>
+  
+          <button
+            type="button"
+            class="botao-atualizar"
+            (click)="carregarFuncionarios()"
+            [disabled]="carregando"
+          >
+            ↻ Atualizar
+          </button>
+        </div>
+  
+        <p class="mensagem" *ngIf="carregando">
+          ⏳ Carregando funcionários...
+        </p>
+  
+        <p
+          class="mensagem"
+          [class.erro]="funcionarios.length === 0 && !carregando"
+          *ngIf="!carregando"
+        >
+          {{ mensagem }}
+        </p>
+  
+        <div class="tabela-container" *ngIf="!carregando && funcionarios.length > 0">
+  
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Cargo</th>
+                <th>E-mail</th>
+                <th>Situação</th>
+              </tr>
+            </thead>
+  
+            <tbody>
+              <tr *ngFor="let funcionario of funcionarios">
+                <td>{{ funcionario.idpessoa }}</td>
+  
+                <td>
+                  {{
+                    funcionario.idpessoaNavigation?.nome
+                    || funcionario.nome
+                    || 'Não informado'
+                  }}
+                </td>
+  
+                <td>{{ funcionario.cargo || 'Não informado' }}</td>
+  
+                <td>
+                  {{
+                    funcionario.idpessoaNavigation?.email
+                    || funcionario.email
+                    || 'Não informado'
+                  }}
+                </td>
+  
+                <td>
+                  <span
+                    class="status"
+                    [class.inativo]="
+                      funcionario.idpessoaNavigation?.ativoPessoa === false
+                      || funcionario.ativoPessoa === false
+                    "
+                  >
+                    {{
+                      funcionario.idpessoaNavigation?.ativoPessoa === false
+                      || funcionario.ativoPessoa === false
+                        ? 'Inativo'
+                        : 'Ativo'
+                    }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
+        </div>
+  
+      </section>
+  
+      <a routerLink="/inicio" class="voltar">← Voltar ao início</a>
+  
+    </main>
+  
+    <footer class="rodape">
+      HellsingStore · Seu estilo, sua identidade.
+    </footer>
+  
+  </div>

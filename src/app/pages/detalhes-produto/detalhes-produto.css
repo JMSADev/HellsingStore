@@ -1,0 +1,181 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background: #0b0b0d;
+    color: #f5f5f5;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  .pagina {
+    min-height: 100vh;
+  }
+  
+  .cabecalho {
+    min-height: 82px;
+    padding: 20px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    border-bottom: 1px solid #252529;
+    background: #101012;
+  }
+  
+  .logo {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 800;
+  }
+  
+  .vermelho {
+    color: #e63946;
+  }
+  
+  nav {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+  }
+  
+  nav a {
+    color: #c7c7cb;
+    text-decoration: none;
+  }
+  
+  nav a:hover {
+    color: #e63946;
+  }
+  
+  .conteudo {
+    width: min(1100px, 90%);
+    min-height: calc(100vh - 160px);
+    margin: 0 auto;
+    padding: 55px 0 80px;
+  }
+  
+  .subtitulo,
+  .categoria {
+    color: #e63946;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  
+  .mensagem {
+    color: #aaaab2;
+    margin: 30px 0;
+  }
+  
+  .produto-detalhe {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+    margin-top: 30px;
+  }
+  
+  .produto-imagem {
+    min-height: 380px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #29292e;
+    border-radius: 16px;
+    background: #141416;
+    color: #e63946;
+    font-size: 100px;
+  }
+  
+  .produto-info h1 {
+    margin: 18px 0;
+    font-size: clamp(35px, 5vw, 55px);
+  }
+  
+  .descricao,
+  .unidade {
+    color: #aaaab2;
+    line-height: 1.8;
+  }
+  
+  .preco {
+    margin: 25px 0 10px;
+    color: #e63946;
+    font-size: 32px;
+    font-weight: bold;
+  }
+  
+  .botao {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 22px;
+    border: 0;
+    border-radius: 8px;
+    background: #e63946;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .botao:hover {
+    background: #c92e3a;
+  }
+  
+  .link-carrinho {
+    display: block;
+    width: fit-content;
+    margin-top: 22px;
+    color: #e63946;
+    text-decoration: none;
+  }
+  
+  .nao-encontrado {
+    margin-top: 35px;
+    padding: 35px;
+    border: 1px solid #29292e;
+    border-radius: 14px;
+    background: #141416;
+  }
+  
+  .nao-encontrado p {
+    color: #aaaab2;
+  }
+  
+  .voltar {
+    display: inline-block;
+    margin-top: 40px;
+    color: #e63946;
+    text-decoration: none;
+  }
+  
+  .rodape {
+    padding: 25px;
+    border-top: 1px solid #252529;
+    background: #101012;
+    color: #aaaab2;
+    text-align: center;
+  }
+  
+  @media (max-width: 750px) {
+    .cabecalho {
+      flex-direction: column;
+    }
+  
+    nav {
+      justify-content: center;
+      gap: 15px;
+    }
+  
+    .produto-detalhe {
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+  
+    .produto-imagem {
+      min-height: 250px;
+    }
+  }

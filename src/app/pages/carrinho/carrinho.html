@@ -1,0 +1,111 @@
+<div class="pagina">
+
+    <header class="cabecalho">
+      <a routerLink="/inicio" class="logo">
+        Hellsing<span class="vermelho">Store</span>
+      </a>
+  
+      <nav>
+        <a routerLink="/inicio">Início</a>
+        <a routerLink="/produtos">Produtos</a>
+        <a routerLink="/carrinho" class="ativo">Carrinho</a>
+        <a routerLink="/administracao">Administração</a>
+      </nav>
+    </header>
+  
+    <main class="conteudo">
+  
+      <p class="subtitulo">SUA SELEÇÃO</p>
+      <h1>Meu <span class="vermelho">carrinho.</span></h1>
+  
+      <p class="mensagem" *ngIf="mensagem">{{ mensagem }}</p>
+  
+      <section class="carrinho-vazio" *ngIf="itens.length === 0">
+        <span class="icone-vazio">🛒</span>
+        <h2>Seu carrinho está vazio</h2>
+        <p>Adicione produtos do catálogo para começar sua compra.</p>
+        <a routerLink="/produtos" class="botao">Explorar produtos</a>
+      </section>
+  
+      <section *ngIf="itens.length > 0">
+  
+        <article class="item-carrinho" *ngFor="let item of itens">
+  
+          <div class="produto-icone">♧</div>
+  
+          <div class="informacoes">
+            <h2>{{ item.produto.item1 }}</h2>
+  
+            <p>
+              {{ obterPreco(item.produto) | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+              por unidade
+            </p>
+  
+            <strong>
+              Subtotal:
+              {{
+                obterPreco(item.produto) * item.quantidade
+                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
+              }}
+            </strong>
+          </div>
+  
+          <div class="quantidade">
+            <button
+              type="button"
+              (click)="diminuir(item)"
+              aria-label="Diminuir quantidade"
+            >−</button>
+  
+            <span>{{ item.quantidade }}</span>
+  
+            <button
+              type="button"
+              (click)="aumentar(item)"
+              aria-label="Aumentar quantidade"
+            >+</button>
+          </div>
+  
+          <button
+            type="button"
+            class="botao-remover"
+            (click)="remover(item)"
+          >
+            Remover
+          </button>
+  
+        </article>
+  
+        <section class="resumo">
+          <div>
+            <span>Quantidade de unidades</span>
+            <strong>{{ obterQuantidade() }}</strong>
+          </div>
+  
+          <div class="total">
+            <span>Total da compra</span>
+            <strong>
+              {{ obterTotal() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </strong>
+          </div>
+  
+          <button type="button" class="botao-limpar" (click)="limpar()">
+            Esvaziar carrinho
+          </button>
+  
+          <p class="aviso">
+            A finalização de pedidos será implementada em uma próxima etapa.
+          </p>
+        </section>
+  
+      </section>
+  
+      <a routerLink="/produtos" class="voltar">← Continuar comprando</a>
+  
+    </main>
+  
+    <footer class="rodape">
+      HellsingStore · Seu estilo, sua identidade.
+    </footer>
+  
+  </div>

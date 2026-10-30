@@ -1,0 +1,252 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background: #0b0b0d;
+    color: #f5f5f5;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  .pagina {
+    min-height: 100vh;
+  }
+  
+  .cabecalho {
+    min-height: 82px;
+    padding: 20px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    border-bottom: 1px solid #252529;
+    background: #101012;
+  }
+  
+  .logo {
+    color: #f5f5f5;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 800;
+  }
+  
+  .vermelho {
+    color: #e63946;
+  }
+  
+  nav {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+  }
+  
+  nav a {
+    color: #c7c7cb;
+    text-decoration: none;
+  }
+  
+  nav a:hover,
+  nav a.ativo {
+    color: #e63946;
+  }
+  
+  .conteudo {
+    width: min(1000px, 90%);
+    min-height: calc(100vh - 160px);
+    margin: 0 auto;
+    padding: 55px 0 80px;
+  }
+  
+  .subtitulo {
+    color: #e63946;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  
+  h1 {
+    font-size: clamp(36px, 5vw, 55px);
+  }
+  
+  .mensagem {
+    color: #aaaab2;
+  }
+  
+  .carrinho-vazio {
+    padding: 55px 20px;
+    margin-top: 30px;
+    border: 1px solid #29292e;
+    border-radius: 14px;
+    background: #141416;
+    text-align: center;
+  }
+  
+  .icone-vazio {
+    font-size: 45px;
+  }
+  
+  .carrinho-vazio p {
+    color: #aaaab2;
+    line-height: 1.7;
+  }
+  
+  .botao {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 13px 20px;
+    border-radius: 7px;
+    background: #e63946;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .item-carrinho {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 22px;
+    margin-top: 18px;
+    border: 1px solid #29292e;
+    border-radius: 12px;
+    background: #141416;
+  }
+  
+  .produto-icone {
+    width: 70px;
+    height: 70px;
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 10px;
+    background: #1c1c20;
+    color: #e63946;
+    font-size: 30px;
+  }
+  
+  .informacoes {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .informacoes h2 {
+    margin-top: 0;
+  }
+  
+  .informacoes p {
+    color: #aaaab2;
+  }
+  
+  .informacoes strong {
+    color: #e63946;
+  }
+  
+  .quantidade {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .quantidade button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #39393e;
+    border-radius: 6px;
+    background: #202024;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .botao-remover {
+    border: 0;
+    background: transparent;
+    color: #ff6b75;
+    cursor: pointer;
+  }
+  
+  .resumo {
+    display: grid;
+    gap: 18px;
+    max-width: 450px;
+    margin: 30px 0 0 auto;
+    padding: 25px;
+    border: 1px solid #29292e;
+    border-radius: 12px;
+    background: #141416;
+  }
+  
+  .resumo > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  
+  .resumo span,
+  .aviso {
+    color: #aaaab2;
+  }
+  
+  .total {
+    padding-top: 18px;
+    border-top: 1px solid #29292e;
+  }
+  
+  .total strong {
+    color: #e63946;
+    font-size: 24px;
+  }
+  
+  .botao-limpar {
+    padding: 12px;
+    border: 1px solid #e63946;
+    border-radius: 7px;
+    background: transparent;
+    color: #ff6b75;
+    cursor: pointer;
+  }
+  
+  .aviso {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  
+  .voltar {
+    display: inline-block;
+    margin-top: 30px;
+    color: #e63946;
+    text-decoration: none;
+  }
+  
+  .rodape {
+    padding: 25px;
+    border-top: 1px solid #252529;
+    background: #101012;
+    color: #aaaab2;
+    text-align: center;
+  }
+  
+  @media (max-width: 700px) {
+    .cabecalho {
+      flex-direction: column;
+    }
+  
+    nav {
+      justify-content: center;
+      gap: 15px;
+    }
+  
+    .item-carrinho {
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+  
+    .informacoes {
+      flex-basis: calc(100% - 95px);
+    }
+  
+    .quantidade {
+      margin-left: 0;
+    }
+  }
