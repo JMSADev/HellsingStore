@@ -1,41 +1,20 @@
 import { Routes } from '@angular/router';
+import { Inicio } from './pages/inicio/inicio';
+import { Produtos } from './pages/produtos/produtos';
+import { DetalhesProduto } from './pages/detalhes-produto/detalhes-produto';
+import { Carrinho } from './pages/carrinho/carrinho';
+import { Clientes } from './pages/clientes/clientes';
+import { Administracao } from './pages/administracao/administracao';
 
+// Cada endereço do site mostra uma página.
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'inicio',
-    pathMatch: 'full'
-  },
-  {
-    path: 'inicio',
-    loadComponent: () =>
-      import('./pages/inicio/inicio').then(m => m.Inicio)
-  },
-  {
-    path: 'produtos',
-    loadComponent: () =>
-      import('./pages/produtos/produtos').then(m => m.Produtos)
-  },
-  {
-    path: 'carrinho',
-    loadComponent: () =>
-      import('./pages/carrinho/carrinho').then(m => m.Carrinho)
-  },
-  {
-    path: 'administracao',
-    loadComponent: () =>
-      import('./pages/administracao/administracao')
-        .then(m => m.Administracao)
-  },
-  {
-    path: 'produtos/:id',
-    loadComponent: () =>
-      import('./pages/detalhes-produto/detalhes-produto')
-        .then(m => m.DetalhesProduto)
-  },
-  {
-    path: '**',
-    redirectTo: 'inicio'
-  }
-  
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  { path: 'inicio', component: Inicio },
+  { path: 'produtos', component: Produtos },
+  { path: 'produtos/:id', component: DetalhesProduto },
+  { path: 'carrinho', component: Carrinho },
+  { path: 'clientes', component: Clientes },
+  {path: 'pedidos', loadComponent: () =>import('./pages/pedidos/pedidos').then(m => m.Pedidos)},
+  { path: 'administracao', component: Administracao },
+  { path: '**', redirectTo: 'inicio' }
 ];

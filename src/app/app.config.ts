@@ -1,23 +1,17 @@
-import {
-  ApplicationConfig,
-  LOCALE_ID,
-  provideBrowserGlobalErrorListeners
-} from '@angular/core';
-
+import { ApplicationConfig, LOCALE_ID } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-
 import { routes } from './app.routes';
 
+// Permite mostrar moeda e datas em português (R$ 1.234,56).
 registerLocaleData(localePt);
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(), // permite chamar a API
     { provide: LOCALE_ID, useValue: 'pt-BR' }
   ]
 };

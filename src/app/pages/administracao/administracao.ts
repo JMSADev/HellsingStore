@@ -1,52 +1,61 @@
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { FuncionariosService } from '../../services/funcionarios.service';
 
 @Component({
   selector: 'app-administracao',
-  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './administracao.html',
   styleUrl: './administracao.css'
 })
 export class Administracao {
   private funcionariosService = inject(FuncionariosService);
+  private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
 
   funcionarios: any[] = [];
-  carregando = true;
-  mensagem = 'Carregando funcionários...';
+  clientes: any[] = [];
+
+  // Texto mostrado acima de cada tabela (vazio quando está tudo certo).
+  msgFuncionarios = '';
+  msgClientes = '';
 
   constructor() {
     this.carregarFuncionarios();
+    this.carregarClientes();
   }
 
   carregarFuncionarios(): void {
-    this.carregando = true;
-    this.mensagem = 'Carregando funcionários...';
+    this.funcionarios = [];
+    this.msgFuncionarios = '⏳ Carregando funcionários...';
 
     this.funcionariosService.listarFuncionarios().subscribe({
-      next: (dados: any[]) => {
-        console.log('Funcionários recebidos:', dados);
-
+      next: dados => {
         this.funcionarios = dados;
-        this.mensagem = dados.length > 0
-          ? 'Funcionários carregados com sucesso!'
-          : 'Nenhum funcionário cadastrado.';
+        this.msgFuncionarios = dados.length ? '' : 'Nenhum funcionário cadastrado.';
+        this.cdr.detectChanges(); // atualiza a tela
+      },
+      error: () => {
+        this.msgFuncionarios = 'Não foi possível carregar os funcionários. Verifique se a API está funcionando.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
-        this.carregando = false;
+  carregarClientes(): void {
+    this.clientes = [];
+    this.msgClientes = '⏳ Carregando clientes...';
+
+    this.http.get<any[]>('https://localhost:7139/api/Clientes').subscribe({
+      next: dados => {
+        this.clientes = dados;
+        this.msgClientes = dados.length ? '' : 'Nenhum cliente cadastrado.';
         this.cdr.detectChanges();
       },
-
-      error: (erro: any) => {
-        console.error('Erro ao carregar funcionários:', erro);
-
-        this.funcionarios = [];
-        this.mensagem =
-          'Não foi possível carregar os funcionários. Verifique se a API está funcionando.';
-
-        this.carregando = false;
+      error: () => {
+        this.msgClientes = 'Não foi possível carregar os clientes. Verifique se a API está funcionando.';
         this.cdr.detectChanges();
       }
     });

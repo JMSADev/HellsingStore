@@ -1,16 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class FuncionariosService {
-  private readonly apiUrl = 'https://localhost:7139/api/Funcionarios';
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
-
-  listarFuncionarios(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  listarFuncionarios() {
+    return this.http.get<any[]>('https://localhost:7139/api/Funcionarios');
   }
 }

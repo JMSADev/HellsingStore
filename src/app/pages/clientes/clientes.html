@@ -1,0 +1,99 @@
+<div class="pagina">
+
+  <header class="cabecalho">
+    <a routerLink="/inicio" class="logo">Hellsing<span class="vermelho">Store</span></a>
+    <nav>
+      <a routerLink="/inicio">Início</a>
+      <a routerLink="/produtos">Produtos</a>
+      <a routerLink="/carrinho">Carrinho</a>
+      <a routerLink="/clientes" class="ativo">Clientes</a>
+      <a routerLink="/administracao">Administração</a>
+      <a routerLink="/pedidos">Pedidos</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+
+    <section class="titulo-pagina">
+      <p class="subtitulo">HELLSINGSTORE · CLIENTES</p>
+      <h1>Cadastro de <span class="vermelho">cliente.</span></h1>
+      <p>Cadastre os dados do cliente para realizar suas compras.</p>
+    </section>
+
+    <form class="formulario" (ngSubmit)="cadastrar()">
+
+      <h2>Dados pessoais</h2>
+
+      <div class="campo">
+        <label>Nome</label>
+        <input type="text" name="nome" [(ngModel)]="dados.nome" placeholder="Digite o nome" maxlength="100" required>
+      </div>
+
+      <div class="linha">
+        <div class="campo">
+          <label>CPF</label>
+          <input type="text" name="cpf" [(ngModel)]="dados.cpf" (input)="formatarCPF()"
+                 placeholder="000.000.000-00" maxlength="14" inputmode="numeric" required>
+        </div>
+        <div class="campo">
+          <label>Data de nascimento</label>
+          <input type="date" name="dataNascimento" [(ngModel)]="dados.dataNascimento" required>
+        </div>
+      </div>
+
+      <div class="linha">
+        <div class="campo">
+          <label>Sexo</label>
+          <select name="sexo" [(ngModel)]="dados.sexo" required>
+            <option value="">Selecione</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label>Telefone</label>
+          <input type="text" name="telefone" [(ngModel)]="dados.telefone" (input)="formatarTelefone()"
+                 placeholder="(79) 99999-9999" maxlength="15" inputmode="numeric" required>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>E-mail</label>
+        <input type="email" name="email" [(ngModel)]="dados.email" placeholder="Digite o e-mail" maxlength="150" required>
+      </div>
+
+      <h2>Endereço</h2>
+
+      <div class="linha">
+        <div class="campo">
+          <label>CEP</label>
+          <input type="text" name="cep" [(ngModel)]="dados.cep" (input)="formatarCEP()"
+                 placeholder="00000-000" maxlength="9" inputmode="numeric" required>
+        </div>
+        <div class="campo">
+          <label>Número</label>
+          <input type="text" name="numero" [(ngModel)]="dados.numero" placeholder="Número da residência" maxlength="10" required>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Complemento</label>
+        <input type="text" name="complemento" [(ngModel)]="dados.complemento" placeholder="Casa, apartamento, etc." maxlength="100">
+      </div>
+
+      <button type="submit" class="botao" [disabled]="cadastrando">
+        {{ cadastrando ? 'Cadastrando...' : 'Cadastrar cliente' }}
+      </button>
+      <button type="button" class="botao botao-secundario" (click)="limpar()">Limpar</button>
+
+    </form>
+
+    <p class="mensagem" *ngIf="mensagem">{{ mensagem }}</p>
+
+    <a routerLink="/inicio" class="voltar">← Voltar ao início</a>
+
+  </main>
+
+  <footer class="rodape">HellsingStore · Seu estilo, sua identidade.</footer>
+
+</div>

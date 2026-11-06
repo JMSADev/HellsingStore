@@ -6,79 +6,37 @@ import { CarrinhoService } from '../../services/carrinho.service';
 
 @Component({
   selector: 'app-detalhes-produto',
-  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './detalhes-produto.html',
   styleUrl: './detalhes-produto.css'
 })
 export class DetalhesProduto {
-  private route = inject(ActivatedRoute);
-  private produtosService = inject(ProdutosService);
-  private carrinhoService = inject(CarrinhoService);
   private cdr = inject(ChangeDetectorRef);
+  private carrinho = inject(CarrinhoService);
 
   produto: any = null;
-  carregando = true;
-  mensagem = 'Carregando produto...';
+  mensagem = '⏳ Carregando produto...';
 
   constructor() {
-    this.carregarProduto();
-  }
+    // O número que vem no endereço (/produtos/3) é o id do produto.
+    const id = Number(inject(ActivatedRoute).snapshot.paramMap.get('id'));
 
-  carregarProduto(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-
-    if (!Number.isInteger(id) || id <= 0) {
-      this.mensagem = 'Identificador de produto inválido.';
-      this.carregando = false;
-      return;
-    }
-
-    this.produtosService.listarProdutos().subscribe({
-      next: (dados: any[]) => {
-        this.produto = dados.find(
-          item => Number(item.iditem) === id
-        ) ?? null;
-
-        this.mensagem = this.produto
-          ? 'Produto encontrado.'
-          : 'Produto não encontrado.';
-
-        this.carregando = false;
+    inject(ProdutosService).listarProdutos().subscribe({
+      next: dados => {
+        this.produto = dados.find(p => Number(p.iditem) === id);
+        this.mensagem = 'Produto não encontrado.';
         this.cdr.detectChanges();
       },
-
-      error: (erro: any) => {
-        console.error('Erro ao carregar produto:', erro);
-
-        this.produto = null;
-        this.mensagem =
-          'Não foi possível carregar o produto. Verifique se a API está funcionando.';
-
-        this.carregando = false;
+      error: () => {
+        this.mensagem = 'Não foi possível carregar o produto. Verifique se a API está funcionando.';
         this.cdr.detectChanges();
       }
     });
   }
 
-  obterPreco(): number {
-    if (!this.produto) {
-      return 0;
-    }
-
-    const preco = Number(
-      this.produto.produto?.precoVenda ?? this.produto.preco ?? 0
-    );
-
-    return Number.isFinite(preco) && preco >= 0 ? preco : 0;
-  }
-
-  adicionarAoCarrinho(): void {
-    if (!this.produto) {
-      return;
-    }
-
-    this.carrinhoService.adicionar(this.produto);
-    alert(`${this.produto.item1} foi adicionado ao carrinho!`);
+  adicionar(): void {
+    alert(this.carrinho.adicionar(this.produto)
+      ? `${this.produto.nome} foi adicionado ao carrinho!`
+      : 'Você atingiu a quantidade disponível em estoque!');
   }
 }

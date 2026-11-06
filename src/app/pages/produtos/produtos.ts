@@ -1,69 +1,49 @@
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { ProdutosService } from '../../services/produtos.service';
 import { CarrinhoService } from '../../services/carrinho.service';
 
 @Component({
   selector: 'app-produtos',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './produtos.html',
   styleUrl: './produtos.css'
 })
 export class Produtos {
-  private produtosService = inject(ProdutosService);
   private cdr = inject(ChangeDetectorRef);
-  private carrinhoService = inject(CarrinhoService);
+  carrinho = inject(CarrinhoService);
 
   produtos: any[] = [];
-  carregando = true;
-  mensagem = 'Carregando produtos...';
+  busca = '';
+  mensagem = '⏳ Carregando produtos...'; // fica vazia quando os produtos chegam
 
   constructor() {
-    this.carregarProdutos();
-  }
-
-  adicionarAoCarrinho(produto: any): void {
-    this.carrinhoService.adicionar(produto);
-    alert(`${produto.item1} foi adicionado ao carrinho!`);
-  }
-
-  carregarProdutos(): void {
-    this.carregando = true;
-    this.mensagem = 'Carregando produtos...';
-
-    this.produtosService.listarProdutos().subscribe({
-      next: (dados: any[]) => {
-        console.log('Produtos recebidos:', dados);
-
+    inject(ProdutosService).listarProdutos().subscribe({
+      next: dados => {
         this.produtos = dados;
-        this.mensagem = dados.length > 0
-          ? 'Produtos carregados com sucesso!'
-          : 'Nenhum produto encontrado.';
-
-        this.carregando = false;
-        this.cdr.detectChanges();
+        this.mensagem = '';
+        this.cdr.detectChanges(); // atualiza a tela
       },
-
-      error: (erro: any) => {
-        console.error('Erro ao carregar produtos:', erro);
-
-        this.produtos = [];
-        this.mensagem =
-          'Não foi possível carregar os produtos. Verifique se a API está funcionando.';
-
-        this.carregando = false;
+      error: () => {
+        this.mensagem = 'Não foi possível carregar os produtos. Verifique se a API está funcionando.';
         this.cdr.detectChanges();
       }
     });
   }
 
-  obterPreco(produto: any): number {
-    const preco = Number(
-      produto.produto?.precoVenda ?? produto.preco ?? 0
+  // Produtos que combinam com o texto digitado na busca.
+  get filtrados(): any[] {
+    const termo = this.busca.toLowerCase().trim();
+    return this.produtos.filter(p =>
+      [p.nome, p.descricao, p.categoria].some(campo => (campo ?? '').toLowerCase().includes(termo))
     );
+  }
 
-    return Number.isFinite(preco) && preco >= 0 ? preco : 0;
+  adicionar(produto: any): void {
+    alert(this.carrinho.adicionar(produto)
+      ? `${produto.nome} foi adicionado ao carrinho!`
+      : 'Você atingiu a quantidade disponível em estoque!');
   }
 }

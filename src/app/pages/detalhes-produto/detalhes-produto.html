@@ -1,86 +1,43 @@
 <div class="pagina">
 
-    <header class="cabecalho">
-      <a routerLink="/inicio" class="logo">
-        Hellsing<span class="vermelho">Store</span>
-      </a>
-  
-      <nav>
-        <a routerLink="/inicio">Início</a>
-        <a routerLink="/produtos">Produtos</a>
-        <a routerLink="/carrinho">Carrinho</a>
-        <a routerLink="/administracao">Administração</a>
-      </nav>
-    </header>
-  
-    <main class="conteudo">
-  
-      <p class="subtitulo">HELLSINGSTORE · DETALHES</p>
-  
-      <p class="mensagem" *ngIf="carregando">
-        ⏳ Carregando produto...
-      </p>
-  
-      <section class="produto-detalhe" *ngIf="!carregando && produto">
-  
-        <div class="produto-imagem">
-          <span>♧</span>
-        </div>
-  
-        <div class="produto-info">
-  
-          <p class="categoria">PRODUTO DA LOJA</p>
-  
-          <h1>{{ produto.item1 }}</h1>
-  
-          <p class="descricao">
-            {{
-              produto.descricaoItem
-              || 'Produto disponível em nossa loja.'
-            }}
-          </p>
-  
-          <p class="preco">
-            {{ obterPreco() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-          </p>
-  
-          <p class="unidade">
-            Unidade: {{ produto.produto?.unidade || 'UN' }}
-          </p>
-  
-          <button
-            type="button"
-            class="botao"
-            (click)="adicionarAoCarrinho()"
-          >
-            + Adicionar ao carrinho
-          </button>
-  
-          <a routerLink="/carrinho" class="link-carrinho">
-            Ir para o carrinho →
-          </a>
-  
-        </div>
-  
-      </section>
-  
-      <section
-        class="nao-encontrado"
-        *ngIf="!carregando && !produto"
-      >
-        <h2>Não encontramos esse produto.</h2>
-        <p>{{ mensagem }}</p>
-        <a routerLink="/produtos" class="botao">Voltar ao catálogo</a>
-      </section>
-  
-      <a routerLink="/produtos" class="voltar">
-        ← Voltar aos produtos
-      </a>
-  
-    </main>
-  
-    <footer class="rodape">
-      HellsingStore · Seu estilo, sua identidade.
-    </footer>
-  
-  </div>
+  <header class="cabecalho">
+    <a routerLink="/inicio" class="logo">Hellsing<span class="vermelho">Store</span></a>
+    <nav>
+      <a routerLink="/inicio">Início</a>
+      <a routerLink="/produtos">Produtos</a>
+      <a routerLink="/carrinho">Carrinho</a>
+      <a routerLink="/clientes">Clientes</a>
+      <a routerLink="/administracao">Administração</a>
+      <a routerLink="/pedidos">Pedidos</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+
+    <p class="subtitulo">HELLSINGSTORE · DETALHES</p>
+
+    <!-- Aparece enquanto carrega, se der erro ou se o produto não existir -->
+    <p class="mensagem" *ngIf="!produto">{{ mensagem }}</p>
+
+    <section class="produto-detalhe" *ngIf="produto">
+      <div class="produto-imagem"><span>♧</span></div>
+
+      <div class="produto-info">
+        <p class="categoria">PRODUTO DA LOJA</p>
+        <h1>{{ produto.nome }}</h1>
+        <p class="descricao">{{ produto.descricao || 'Produto disponível em nossa loja.' }}</p>
+        <p class="preco">{{ produto.precoVenda | currency:'BRL' }}</p>
+        <p class="unidade">Unidade: {{ produto.unidade || 'UN' }}</p>
+
+        <button type="button" class="botao" (click)="adicionar()">+ Adicionar ao carrinho</button>
+        <a routerLink="/carrinho" class="link-carrinho">Ir para o carrinho →</a>
+      </div>
+    </section>
+
+    <a routerLink="/produtos" class="voltar">← Voltar aos produtos</a>
+
+  </main>
+
+  <footer class="rodape">HellsingStore · Seu estilo, sua identidade.</footer>
+
+</div>

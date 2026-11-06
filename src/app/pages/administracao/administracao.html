@@ -1,121 +1,98 @@
 <div class="pagina">
 
-    <header class="cabecalho">
-      <a routerLink="/inicio" class="logo">
-        Hellsing<span class="vermelho">Store</span>
-      </a>
-  
-      <nav>
-        <a routerLink="/inicio">Início</a>
-        <a routerLink="/produtos">Produtos</a>
-        <a routerLink="/carrinho">Carrinho</a>
-        <a routerLink="/administracao" class="ativo">Administração</a>
-      </nav>
-    </header>
-  
-    <main class="conteudo">
-  
-      <section class="titulo-pagina">
-        <p class="subtitulo">HELLSINGSTORE · PAINEL ADMINISTRATIVO</p>
-        <h1>Gerenciamento de <span class="vermelho">funcionários.</span></h1>
-        <p>Consulte os funcionários cadastrados no sistema.</p>
-      </section>
-  
-      <section class="painel">
-  
-        <div class="painel-topo">
-          <div>
-            <h2>Funcionários cadastrados</h2>
-            <p>Dados recebidos da API.</p>
-          </div>
-  
-          <button
-            type="button"
-            class="botao-atualizar"
-            (click)="carregarFuncionarios()"
-            [disabled]="carregando"
-          >
-            ↻ Atualizar
-          </button>
+  <header class="cabecalho">
+    <a routerLink="/inicio" class="logo">Hellsing<span class="vermelho">Store</span></a>
+    <nav>
+      <a routerLink="/inicio">Início</a>
+      <a routerLink="/produtos">Produtos</a>
+      <a routerLink="/carrinho">Carrinho</a>
+      <a routerLink="/clientes">Clientes</a>
+      <a routerLink="/administracao" class="ativo">Administração</a>
+      <a routerLink="/pedidos">Pedidos</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+
+    <section class="titulo-pagina">
+      <p class="subtitulo">HELLSINGSTORE · PAINEL ADMINISTRATIVO</p>
+      <h1>Gerenciamento de <span class="vermelho">funcionários.</span></h1>
+      <p>Consulte os funcionários e clientes cadastrados no sistema.</p>
+    </section>
+
+    <!-- Funcionários -->
+    <section class="painel">
+      <div class="painel-topo">
+        <div>
+          <h2>Funcionários cadastrados</h2>
+          <p>Dados recebidos da API.</p>
         </div>
-  
-        <p class="mensagem" *ngIf="carregando">
-          ⏳ Carregando funcionários...
-        </p>
-  
-        <p
-          class="mensagem"
-          [class.erro]="funcionarios.length === 0 && !carregando"
-          *ngIf="!carregando"
-        >
-          {{ mensagem }}
-        </p>
-  
-        <div class="tabela-container" *ngIf="!carregando && funcionarios.length > 0">
-  
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Cargo</th>
-                <th>E-mail</th>
-                <th>Situação</th>
-              </tr>
-            </thead>
-  
-            <tbody>
-              <tr *ngFor="let funcionario of funcionarios">
-                <td>{{ funcionario.idpessoa }}</td>
-  
-                <td>
-                  {{
-                    funcionario.idpessoaNavigation?.nome
-                    || funcionario.nome
-                    || 'Não informado'
-                  }}
-                </td>
-  
-                <td>{{ funcionario.cargo || 'Não informado' }}</td>
-  
-                <td>
-                  {{
-                    funcionario.idpessoaNavigation?.email
-                    || funcionario.email
-                    || 'Não informado'
-                  }}
-                </td>
-  
-                <td>
-                  <span
-                    class="status"
-                    [class.inativo]="
-                      funcionario.idpessoaNavigation?.ativoPessoa === false
-                      || funcionario.ativoPessoa === false
-                    "
-                  >
-                    {{
-                      funcionario.idpessoaNavigation?.ativoPessoa === false
-                      || funcionario.ativoPessoa === false
-                        ? 'Inativo'
-                        : 'Ativo'
-                    }}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-  
+        <button type="button" class="botao-atualizar" (click)="carregarFuncionarios()">↻ Atualizar</button>
+      </div>
+
+      <p class="mensagem" *ngIf="msgFuncionarios">{{ msgFuncionarios }}</p>
+
+      <div class="tabela-container" *ngIf="funcionarios.length > 0">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Nome</th><th>Cargo</th><th>E-mail</th><th>Situação</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let f of funcionarios">
+              <td>{{ f.idpessoa }}</td>
+              <td>{{ f.idpessoaNavigation?.nome || f.nome || 'Não informado' }}</td>
+              <td>{{ f.cargo || 'Não informado' }}</td>
+              <td>{{ f.idpessoaNavigation?.email || f.email || 'Não informado' }}</td>
+              <td>
+                <span class="status" [class.inativo]="f.idpessoaNavigation?.ativoPessoa === false || f.ativoPessoa === false">
+                  {{ f.idpessoaNavigation?.ativoPessoa === false || f.ativoPessoa === false ? 'Inativo' : 'Ativo' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Clientes -->
+    <section class="painel clientes-painel">
+      <div class="painel-topo">
+        <div>
+          <h2>Clientes cadastrados</h2>
+          <p>Clientes recebidos da API.</p>
         </div>
-  
-      </section>
-  
-      <a routerLink="/inicio" class="voltar">← Voltar ao início</a>
-  
-    </main>
-  
-    <footer class="rodape">
-      HellsingStore · Seu estilo, sua identidade.
-    </footer>
-  
-  </div>
+        <button type="button" class="botao-atualizar" (click)="carregarClientes()">↻ Atualizar</button>
+      </div>
+
+      <p class="mensagem" *ngIf="msgClientes">{{ msgClientes }}</p>
+
+      <div class="tabela-container" *ngIf="clientes.length > 0">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Nome</th><th>CPF</th><th>E-mail</th><th>Telefone</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of clientes">
+              <td>{{ c.idpessoa }}</td>
+              <td>{{ c.nome || 'Não informado' }}</td>
+              <td>{{ c.cpf || 'Não informado' }}</td>
+              <td>{{ c.email || 'Não informado' }}</td>
+              <td>{{ c.telefone || 'Não informado' }}</td>
+              <td>
+                <span class="status" [class.inativo]="c.ativoPessoa !== 'S'">
+                  {{ c.ativoPessoa === 'S' ? 'Ativo' : 'Inativo' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <a routerLink="/inicio" class="voltar">← Voltar ao início</a>
+
+  </main>
+
+  <footer class="rodape">HellsingStore · Seu estilo, sua identidade.</footer>
+
+</div>
