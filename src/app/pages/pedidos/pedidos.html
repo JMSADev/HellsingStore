@@ -1,253 +1,71 @@
 <div class="pagina">
 
-    <header class="cabecalho">
-  
-      <a routerLink="/inicio" class="logo">
-        Hellsing<span class="vermelho">Store</span>
-      </a>
-  
-      <nav>
-  
-        <a routerLink="/inicio">
-          Início
-        </a>
-  
-        <a routerLink="/produtos">
-          Produtos
-        </a>
-  
-        <a routerLink="/carrinho">
-          Carrinho
-        </a>
-  
-        <a routerLink="/clientes">
-          Clientes
-        </a>
-  
-        <a routerLink="/pedidos" class="ativo">
-          Meus pedidos
-        </a>
-  
-        <a routerLink="/administracao">
-          Administração
-        </a>
-        <a routerLink="/pedidos">Pedidos</a>
-  
-      </nav>
-  
-    </header>
-  
-  
-    <main class="conteudo">
-  
-      <p class="subtitulo">
-        HELLSINGSTORE · PEDIDOS
-      </p>
-  
-      <h1>
-        Meus <span class="vermelho">pedidos.</span>
-      </h1>
-  
-      <p class="descricao">
-        Consulte os pedidos realizados pelo cliente.
-      </p>
-  
-  
-      <!-- Escolha do cliente -->
-  
-      <section class="cliente">
-  
-        <label>
-          Cliente
-        </label>
-  
-        <select
-          [(ngModel)]="idPessoa"
-          (change)="carregarPedidos()"
-          [disabled]="carregandoClientes"
-        >
-  
-          <option [ngValue]="0">
-            {{
-              carregandoClientes
-                ? 'Carregando clientes...'
-                : 'Selecione um cliente'
-            }}
-          </option>
-  
-          <option
-            *ngFor="let cliente of clientes"
-            [ngValue]="cliente.idpessoa"
-          >
-            {{ cliente.nome }}
-          </option>
-  
-        </select>
-  
-      </section>
-  
-  
-      <!-- Carregando pedidos -->
-  
-      <p
-        class="mensagem"
-        *ngIf="carregandoPedidos"
-      >
-        Carregando pedidos...
-      </p>
-  
-  
-      <!-- Mensagem -->
-  
-      <p
-        class="mensagem"
-        *ngIf="mensagem && !carregandoPedidos"
-      >
-        {{ mensagem }}
-      </p>
-  
-  
-      <!-- Lista de pedidos -->
-  
-      <section
-        class="pedidos"
-        *ngIf="pedidos.length > 0"
-      >
-  
-        <article
-          class="pedido"
-          *ngFor="let pedido of pedidos"
-        >
-  
-          <!-- Cabeçalho -->
-  
-          <div class="pedido-cabecalho">
-  
-            <div>
-  
-              <span class="numero">
-                Pedido #{{ pedido.idatendimento }}
-              </span>
-  
-              <p>
-                Cliente:
-                {{ pedido.cliente }}
-              </p>
-  
-              <p>
-                Data:
-                {{
-                  pedido.dataAtendimento
-                    | date:'dd/MM/yyyy'
-                }}
-              </p>
-  
-            </div>
-  
-  
-            <span
-              class="status"
-              [ngClass]="obterClasseStatus(
-                pedido.statusAtendimento
-              )"
-            >
-  
-              {{
-                obterStatus(
-                  pedido.statusAtendimento
-                )
-              }}
-  
-            </span>
-  
-          </div>
-  
-  
-          <!-- Itens -->
-  
-          <div class="itens">
-  
-            <h2>
-              Produtos do pedido
-            </h2>
-  
-            <div
-              class="item"
-              *ngFor="let item of pedido.itens"
-            >
-  
-              <div>
-  
-                <strong>
-                  {{ item.item }}
-                </strong>
-  
-                <p>
-                  Quantidade:
-                  {{ item.quantidade }}
-                </p>
-  
-              </div>
-  
-  
-              <div class="preco">
-  
-                <span>
-                  {{
-                    item.valorUnitario
-                      | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-                  }}
-                  por unidade
-                </span>
-  
-                <strong>
-                  {{
-                    item.valorUnitario * item.quantidade
-                      | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-                  }}
-                </strong>
-  
-              </div>
-  
-            </div>
-  
-          </div>
-  
-  
-          <!-- Total -->
-  
-          <div class="total">
-  
-            <span>
-              Total do pedido
-            </span>
-  
-            <strong>
-              {{
-                pedido.total
-                  | currency:'BRL':'symbol':'1.2-2':'pt-BR'
-              }}
-            </strong>
-  
-          </div>
-  
-        </article>
-  
-      </section>
-  
-  
-      <a
-        routerLink="/inicio"
-        class="voltar"
-      >
-        ← Voltar ao início
-      </a>
-  
-    </main>
-  
-  
-    <footer class="rodape">
-      HellsingStore · Seu estilo, sua identidade.
-    </footer>
-  
-  </div>
+  <header class="cabecalho">
+    <a routerLink="/inicio" class="logo">Hellsing<span class="vermelho">Store</span></a>
+    <nav>
+      <a routerLink="/inicio">Início</a>
+      <a routerLink="/produtos">Produtos</a>
+      <a routerLink="/carrinho">Carrinho</a>
+      <a routerLink="/clientes">Clientes</a>
+      <a routerLink="/administracao">Administração</a>
+      <a routerLink="/pedidos" class="ativo">Pedidos</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+
+    <section class="titulo-pagina">
+      <p class="subtitulo">HELLSINGSTORE · PEDIDOS</p>
+      <h1>Meus <span class="vermelho">pedidos.</span></h1>
+      <p>Consulte os pedidos realizados pelo cliente.</p>
+    </section>
+
+    <section class="cliente">
+      <label for="cliente">Cliente</label>
+      <select id="cliente" [ngModel]="idPessoa" (ngModelChange)="carregarPedidos($event)">
+        <option [ngValue]="0">Selecione um cliente</option>
+        <option *ngFor="let cliente of clientes" [ngValue]="cliente.idpessoa">{{ cliente.nome }}</option>
+      </select>
+    </section>
+
+    <p class="mensagem" *ngIf="mensagem">{{ mensagem }}</p>
+
+    <article class="pedido" *ngFor="let pedido of pedidos">
+
+      <div class="pedido-cabecalho">
+        <div>
+          <strong class="numero">Pedido #{{ pedido.idatendimento }}</strong>
+          <p>Data: {{ pedido.dataAtendimento | date:'dd/MM/yyyy' }}</p>
+        </div>
+        <span class="status" [ngClass]="classeStatus(pedido.statusAtendimento)">
+          {{ nomeStatus(pedido.statusAtendimento) }}
+        </span>
+      </div>
+
+      <h2>Itens do pedido</h2>
+
+      <div class="item" *ngFor="let item of pedido.itens">
+        <div>
+          <strong>{{ item.item }}</strong>
+          <p>Quantidade: {{ item.quantidade }}</p>
+        </div>
+        <div class="preco">
+          <span>{{ item.valorUnitario | currency:'BRL' }} por unidade</span>
+          <strong>{{ item.valorUnitario * item.quantidade | currency:'BRL' }}</strong>
+        </div>
+      </div>
+
+      <div class="total">
+        <span>Total do pedido</span>
+        <strong>{{ pedido.total | currency:'BRL' }}</strong>
+      </div>
+
+    </article>
+
+    <a routerLink="/inicio" class="voltar">← Voltar ao início</a>
+
+  </main>
+
+  <footer class="rodape">HellsingStore · Seu estilo, sua identidade.</footer>
+
+</div>
