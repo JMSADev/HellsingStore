@@ -262,4 +262,6 @@ nav a.ativo {
   .preco {
     text-align: left;
   }
+  .cliente input { padding: 12px; margin-right: 10px; border: 1px solid #29292e; border-radius: 8px; background: #141416; color: #f5f5f5; }
+.cliente button { padding: 12px 18px; border: 0; border-radius: 8px; background: #e63946; color: #fff; font-weight: bold; cursor: pointer; }
 }

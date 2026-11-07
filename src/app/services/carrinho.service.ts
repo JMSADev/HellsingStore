@@ -26,7 +26,7 @@ export class CarrinhoService {
   adicionar(produto: any): boolean {
     const item = this.itens.find(i => i.produto.iditem === produto.iditem);
 
-    if ((item?.quantidade ?? 0) >= (produto.quantidadeEstoque ?? 0)) return false;
+    if (produto.tipo !== 'S' && (item?.quantidade ?? 0) >= (produto.quantidadeEstoque ?? 0)) return false;
 
     if (item) item.quantidade++;
     else this.itens.push({ produto, quantidade: 1 });

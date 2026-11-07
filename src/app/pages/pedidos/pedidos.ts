@@ -28,7 +28,21 @@ export class Pedidos {
   clientes: any[] = [];
   pedidos: any[] = [];
   idPessoa = 0;
-  mensagem = 'Escolha um cliente para visualizar os pedidos.';
+  cpf = '';
+mensagem = 'Informe seu CPF para visualizar os pedidos.';
+
+consultar(): void {
+  const digitos = this.cpf.replace(/\D/g, '');
+  const cliente = this.clientes.find(c => digitos && Number(c.cpf) === Number(digitos));
+
+  if (!cliente) {
+    this.pedidos = [];
+    this.mensagem = 'Nenhum cliente encontrado com este CPF.';
+    return;
+  }
+
+  this.carregarPedidos(cliente.idpessoa);
+}
 
   constructor() {
     inject(ClientesService).listarClientes().subscribe({

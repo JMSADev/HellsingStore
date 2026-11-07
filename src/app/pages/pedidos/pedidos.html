@@ -7,8 +7,8 @@
       <a routerLink="/produtos">Produtos</a>
       <a routerLink="/carrinho">Carrinho</a>
       <a routerLink="/clientes">Clientes</a>
-      <a routerLink="/administracao">Administração</a>
       <a routerLink="/pedidos" class="ativo">Pedidos</a>
+      <a routerLink="/admin">Administração</a>
     </nav>
   </header>
 
@@ -21,11 +21,9 @@
     </section>
 
     <section class="cliente">
-      <label for="cliente">Cliente</label>
-      <select id="cliente" [ngModel]="idPessoa" (ngModelChange)="carregarPedidos($event)">
-        <option [ngValue]="0">Selecione um cliente</option>
-        <option *ngFor="let cliente of clientes" [ngValue]="cliente.idpessoa">{{ cliente.nome }}</option>
-      </select>
+      <label for="cpf">Seu CPF</label>
+      <input id="cpf" type="text" placeholder="000.000.000-00" [(ngModel)]="cpf" (keyup.enter)="consultar()" />
+      <button type="button" (click)="consultar()">Ver meus pedidos</button>
     </section>
 
     <p class="mensagem" *ngIf="mensagem">{{ mensagem }}</p>

@@ -10,8 +10,8 @@
       <a routerLink="/produtos">Produtos</a>
       <a routerLink="/carrinho">Carrinho</a>
       <a routerLink="/clientes">Clientes</a>
-      <a routerLink="/administracao">Administração</a>
       <a routerLink="/pedidos">Pedidos</a>
+      <a routerLink="/administracao">Administração</a>
     </nav>
   </header>
 
@@ -24,7 +24,18 @@
     </section>
 
     <div class="campo-pesquisa">
-      <input type="text" placeholder="Pesquisar produtos..." [(ngModel)]="busca" />
+      <input type="text" placeholder="Pesquisar produtos e serviços..." [(ngModel)]="busca" />
+      <div class="filtros">
+        <select [(ngModel)]="tipo">
+          <option value="">Produtos e serviços</option>
+          <option value="P">Só produtos</option>
+          <option value="S">Só serviços</option>
+        </select>
+        <select [(ngModel)]="categoria">
+          <option value="">Todas as categorias</option>
+          <option *ngFor="let c of categorias" [value]="c">{{ c }}</option>
+        </select>
+      </div>
     </div>
 
     <p class="mensagem" *ngIf="mensagem">{{ mensagem }}</p>
@@ -44,16 +55,17 @@
               <span>{{ produto.unidade || 'UN' }}</span>
             </div>
 
-            <p class="estoque">
+            <p class="estoque" *ngIf="produto.tipo === 'P'">
               {{ produto.quantidadeEstoque > 0 ? 'Estoque: ' + produto.quantidadeEstoque + ' unidades' : 'Sem estoque' }}
             </p>
+            <p class="estoque" *ngIf="produto.tipo === 'S'">Serviço disponível</p>
 
             <span class="ver-detalhes">Ver detalhes →</span>
           </div>
         </a>
 
-        <button type="button" class="botao" [disabled]="produto.quantidadeEstoque <= 0" (click)="adicionar(produto)">
-          {{ produto.quantidadeEstoque > 0 ? '+ Adicionar ao carrinho' : 'Produto indisponível' }}
+        <button type="button" class="botao" [disabled]="produto.tipo === 'P' && produto.quantidadeEstoque <= 0" (click)="adicionar(produto)">
+          {{ produto.tipo === 'S' || produto.quantidadeEstoque > 0 ? '+ Adicionar ao carrinho' : 'Produto indisponível' }}
         </button>
 
       </article>

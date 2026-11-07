@@ -17,26 +17,35 @@ export class Produtos {
 
   produtos: any[] = [];
   busca = '';
-  mensagem = '⏳ Carregando produtos...'; // fica vazia quando os produtos chegam
+  categoria = '';
+  tipo = ''; // '' = todos, 'P' = produtos, 'S' = serviços
+  mensagem = '⏳ Carregando produtos e serviços...';
 
   constructor() {
-    inject(ProdutosService).listarProdutos().subscribe({
+    inject(ProdutosService).listarTudo().subscribe({
       next: dados => {
         this.produtos = dados;
         this.mensagem = '';
-        this.cdr.detectChanges(); // atualiza a tela
+        this.cdr.detectChanges();
       },
       error: () => {
-        this.mensagem = 'Não foi possível carregar os produtos. Verifique se a API está funcionando.';
+        this.mensagem = 'Não foi possível carregar o catálogo. Verifique se a API está funcionando.';
         this.cdr.detectChanges();
       }
     });
   }
 
-  // Produtos que combinam com o texto digitado na busca.
+  // Categorias que existem no catálogo (para o filtro).
+  get categorias(): string[] {
+    return [...new Set(this.produtos.map(p => p.categoria).filter(c => c))];
+  }
+
+  // Itens que combinam com a busca, a categoria e o tipo escolhidos.
   get filtrados(): any[] {
     const termo = this.busca.toLowerCase().trim();
     return this.produtos.filter(p =>
+      (!this.categoria || p.categoria === this.categoria) &&
+      (!this.tipo || p.tipo === this.tipo) &&
       [p.nome, p.descricao, p.categoria].some(campo => (campo ?? '').toLowerCase().includes(termo))
     );
   }

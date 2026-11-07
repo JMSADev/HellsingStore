@@ -7,8 +7,8 @@
       <a routerLink="/produtos">Produtos</a>
       <a routerLink="/carrinho" class="ativo">Carrinho</a>
       <a routerLink="/clientes">Clientes</a>
-      <a routerLink="/administracao">Administração</a>
       <a routerLink="/pedidos">Pedidos</a>
+      <a routerLink="/admin">Administração</a>
     </nav>
   </header>
 
@@ -37,6 +37,7 @@
           <h2>{{ item.produto.nome }}</h2>
           <p>{{ carrinho.preco(item.produto) | currency:'BRL' }} por unidade</p>
           <p>Estoque disponível: {{ item.produto.quantidadeEstoque }}</p>
+          <p *ngIf="item.produto.tipo === 'P'">Estoque disponível: {{ item.produto.quantidadeEstoque }}</p>
           <strong>Subtotal: {{ carrinho.preco(item.produto) * item.quantidade | currency:'BRL' }}</strong>
         </div>
 
